@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 import { Server } from 'http';
 import { Environment } from './env';
 import { errorHandler } from './error';
@@ -13,6 +14,7 @@ export const startApp = (env: Environment): Server => {
 
   const app = express();
 
+  app.use(helmet());
   app.use(express.json());
   app.use(makeRequestLogger(logger));
 
