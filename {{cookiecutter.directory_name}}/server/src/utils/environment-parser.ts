@@ -27,7 +27,8 @@ export const isSecret = (key: string): boolean => !!key.match(/(password|secret|
 
 export const getRedactedEnvironment = (environment: Record<string, unknown>): Record<string, unknown> =>
   Object.entries(environment).reduce((redactedEnv, [key, value]) => {
-    if (typeof value === 'object') value = getRedactedEnvironment({ ...value });
-    if (isSecret(key)) value = '****';
-    return { ...redactedEnv, [key]: value };
+    let safeValue = value;
+    if (typeof value === 'object') safeValue = getRedactedEnvironment({ ...value });
+    if (isSecret(key)) safeValue = '****';
+    return { ...redactedEnv, [key]: safeValue };
   }, {});

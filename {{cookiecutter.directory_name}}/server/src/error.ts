@@ -7,6 +7,7 @@ const logger = getLogger();
 
 export class Exception extends Error {
   reason: ExceptionReasons;
+
   metadata?: Record<string, unknown>;
 
   constructor(reason: ExceptionReasons, metadata?: Record<string, unknown>) {
@@ -18,8 +19,8 @@ export class Exception extends Error {
 }
 
 const exceptionHandlerMap: { [key in ExceptionReasons]: ErrorRequestHandler } = {
-  BAD_REQUEST: (error, req, res, next) => res.status(400).json({ message: error.message }),
-  NOT_FOUND: (error, req, res, next) => res.status(404).json({ message: error.message }),
+  BAD_REQUEST: (error, _req, res) => res.status(400).json({ message: error.message }),
+  NOT_FOUND: (error, _req, res) => res.status(404).json({ message: error.message }),
 };
 
 export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {

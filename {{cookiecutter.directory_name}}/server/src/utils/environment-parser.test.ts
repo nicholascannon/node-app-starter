@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import 'mocha';
 import { expect } from 'chai';
 import { getNumber, getString, getStringList, isSecret } from './environment-parser';
 
 describe('getString', () => {
   it('should get the environment variable', () => {
-    process.env['X'] = 'hello';
+    process.env.X = 'hello';
     expect(getString('X')).to.equal('hello');
   });
 
@@ -19,12 +20,12 @@ describe('getString', () => {
 
 describe('getStringList', () => {
   it('should get the single environment variable', () => {
-    process.env['X'] = 'hello';
+    process.env.X = 'hello';
     expect(getStringList('X')).to.deep.equal(['hello']);
   });
 
   it('should get the multiple environment variable separated with commas', () => {
-    process.env['X'] = 'hello,world';
+    process.env.X = 'hello,world';
     expect(getStringList('X')).to.deep.equal(['hello', 'world']);
   });
 
@@ -39,7 +40,7 @@ describe('getStringList', () => {
 
 describe('getNumber', () => {
   it('should get the environment variable', () => {
-    process.env['X'] = '42';
+    process.env.X = '42';
     expect(getNumber('X')).to.equal(42);
   });
 
