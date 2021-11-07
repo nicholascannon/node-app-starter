@@ -19,6 +19,10 @@ process
   .on('SIGTERM', () => {
     logger.info('Recieved SIGTERM, shutting down...');
     lifecycle.shutdown();
+  })
+  .on('SIGINT', () => {
+    logger.info('Recieved SIGINT, shutting down...');
+    lifecycle.shutdown();
   });
 
 const server = startApp(getEnvironment());
