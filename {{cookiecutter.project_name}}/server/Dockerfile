@@ -4,10 +4,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --quite
 
-COPY src src
 COPY .prettierrc .
 COPY .eslintrc.js .
 COPY tsconfig*.json ./
+COPY src src
 
 RUN npm run lint
 RUN npm run test
@@ -18,7 +18,7 @@ RUN npm prune --production
 FROM node:16.7.0-alpine AS runtime
 WORKDIR /usr/src/app
 
-# don't want node process as PID, use this instead
+# don't want node process as PID 1, use this instead
 RUN apk add dumb-init
 
 COPY --from=build /usr/src/app/dist dist/
