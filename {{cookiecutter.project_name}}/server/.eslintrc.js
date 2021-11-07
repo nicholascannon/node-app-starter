@@ -21,9 +21,6 @@ module.exports = {
     project: 'tsconfig.eslint.json',
     tsconfigRootDir: __dirname,
   },
-  settings: {
-    'import/extensions': ['.ts'],
-  },
   plugins: ['@typescript-eslint'],
   rules: {
     'import/prefer-default-export': 0,

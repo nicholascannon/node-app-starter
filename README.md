@@ -2,7 +2,7 @@
 
 Typescript, Node.JS, Express, Docker and React application cookie cutter.
 
-Also has Prettier and ESLint already setup too.
+Also has Prettier and ESLint setup too.
 
 Project structure
 
@@ -15,6 +15,7 @@ Project structure
     package.json
     ...
   README.md
+  ...
 ```
 
 ## Get Started
@@ -23,7 +24,7 @@ Project structure
 brew install cookiecutter
 ```
 
-Create a project with a `create-react-app` React client:
+Create a project with a `create-react-app` client:
 
 ```bash
 $ cookiecutter https://github.com/nicholascannon/node-app-starter
@@ -31,3 +32,11 @@ $ cookiecutter https://github.com/nicholascannon/node-app-starter
   project_description []: A cool project
   create_react_app [false]: true
 ```
+
+## Some resources I used to build this
+
+- https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
+
+- https://macklin.me/understanding-and-managing-the-node-js-application-lifecycle
+
+- my brain
