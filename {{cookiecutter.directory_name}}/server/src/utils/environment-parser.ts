@@ -1,6 +1,6 @@
 type GetEnvironmentValue<T> = (key: string, required?: boolean) => T;
 
-export const getString: GetEnvironmentValue<String> = (key, required = true) => {
+export const getString: GetEnvironmentValue<string> = (key, required = true) => {
   const value = process.env[key];
   const isInvalid = value === null || value === undefined;
 
@@ -9,7 +9,12 @@ export const getString: GetEnvironmentValue<String> = (key, required = true) => 
   return value || '';
 };
 
-export const getNumber: GetEnvironmentValue<Number> = (key, required = true) => {
+export const getStringList: GetEnvironmentValue<string[]> = (key, required = true) => {
+  const value = getString(key, required);
+  return value.split(',');
+};
+
+export const getNumber: GetEnvironmentValue<number> = (key, required = true) => {
   const value = Number(getString(key, required));
   const isInvalid = !Number.isSafeInteger(value) || Number.isNaN(value);
 

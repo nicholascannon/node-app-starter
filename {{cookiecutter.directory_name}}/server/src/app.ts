@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import { Server } from 'http';
 import { Environment } from './env';
 import { errorHandler } from './error';
@@ -15,8 +16,9 @@ export const startApp = (env: Environment): Server => {
   const app = express();
 
   app.use(helmet());
-  app.use(express.json());
   app.use(makeRequestLogger(logger));
+  if (env.corsOrigins.length) app.use(cors({ origin: env.corsOrigins }));
+  app.use(express.json());
 
   app.get(
     '/',
