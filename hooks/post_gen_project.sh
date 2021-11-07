@@ -2,7 +2,7 @@
 
 git init
 
-if [[ "{{cookiecutter.create_react_app(y/n)}}" == "y" ]]; then
+if [[ "{{cookiecutter.create_react_app}}" == "true" ]]; then
   cd client
   rm .gitkeep
   npx create-react-app .
