@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { getNumber, getString, isSecret } from './environment-parser';
+import { getNumber, getString, getStringList, isSecret } from './environment-parser';
 
 describe('getString', () => {
   it('should get the environment variable', () => {
@@ -14,6 +14,26 @@ describe('getString', () => {
 
   it('should not throw when not set and required is false, should return empty string', () => {
     expect(getString('Y', false)).to.equal('');
+  });
+});
+
+describe('getStringList', () => {
+  it('should get the single environment variable', () => {
+    process.env['X'] = 'hello';
+    expect(getStringList('X')).to.deep.equal(['hello']);
+  });
+
+  it('should get the multiple environment variable separated with commas', () => {
+    process.env['X'] = 'hello,world';
+    expect(getStringList('X')).to.deep.equal(['hello', 'world']);
+  });
+
+  it('should error when not set', () => {
+    expect(() => getStringList('Y')).to.throw(Error, 'Environment error');
+  });
+
+  it('should not throw when not set and required is false, should return empty string', () => {
+    expect(getStringList('Y', false)).to.deep.equal([]);
   });
 });
 

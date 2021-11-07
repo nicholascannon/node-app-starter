@@ -8,6 +8,7 @@ import { getLogger } from './log';
 import { makeRequestLogger } from './middleware/request-logger';
 import { getRedactedEnvironment } from './utils/environment-parser';
 import { asyncErrorWrapper } from './utils/express-handler-wrappers';
+import { makeHealthCheckRoute } from './routes/healthcheck';
 
 export const startApp = (env: Environment): Server => {
   const logger = getLogger();
@@ -20,12 +21,7 @@ export const startApp = (env: Environment): Server => {
   if (env.corsOrigins.length) app.use(cors({ origin: env.corsOrigins }));
   app.use(express.json());
 
-  app.get(
-    '/',
-    asyncErrorWrapper((_req, res) => {
-      return res.json({ message: 'Working ' });
-    })
-  );
+  app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(env)));
 
   app.use(errorHandler);
 

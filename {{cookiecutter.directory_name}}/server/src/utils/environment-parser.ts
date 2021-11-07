@@ -11,7 +11,7 @@ export const getString: GetEnvironmentValue<string> = (key, required = true) => 
 
 export const getStringList: GetEnvironmentValue<string[]> = (key, required = true) => {
   const value = getString(key, required);
-  return value.split(',');
+  return value === '' ? [] : value.split(',');
 };
 
 export const getNumber: GetEnvironmentValue<number> = (key, required = true) => {
