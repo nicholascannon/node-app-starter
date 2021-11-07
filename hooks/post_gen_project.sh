@@ -2,6 +2,8 @@
 
 git init
 
+npm i
+
 if [[ "{{cookiecutter.create_react_app}}" == "true" ]]; then
   cd client
   rm .gitkeep

@@ -2,18 +2,31 @@
 
 {{cookiecutter.project_description}}
 
-## How to run
+## Getting started
 
-- Locally with hot-reload
+- Install root project deps
+
+```bash
+npm i
+```
+
+- Bootstrap client and server
+
+```bash
+npm run bootstrap
+```
+
+- Run client and server with hot-reload
 
 ```bash
 export PORT=8080 && npm start
 ```
 
-- With Docker
+### Running the server in Docker
 
 ```bash
-$ docker build -t <IMAGE_NAME> --build-arg PORT=8080 .
+cd server
+docker build -t <IMAGE_NAME> --build-arg PORT=8080 .
 ...
-$ docker run -p 8080:8080 <IMAGE_NAME>
+docker run -p 8080:8080 <IMAGE_NAME>
 ```
