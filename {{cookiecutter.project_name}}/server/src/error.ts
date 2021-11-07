@@ -25,10 +25,9 @@ const exceptionHandlerMap: { [key in ExceptionReasons]: ErrorRequestHandler } = 
 
 export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   if (error instanceof Exception) {
-    logger.error({ error, requestId: req.requestId, ...error.metadata }, 'Exception');
     return exceptionHandlerMap[error.reason](error, req, res, next);
   }
 
   logger.error({ error, requestId: req.requestId }, 'Unexpected error');
-  return res.status(500).json({ message: 'Something went wrong ' });
+  return res.status(500).json({ message: 'Something went wrong' });
 };

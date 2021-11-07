@@ -1,4 +1,5 @@
 type ListenerFunction = () => Promise<unknown>;
+
 let running = true;
 const onCloseListeners: Array<ListenerFunction> = [];
 

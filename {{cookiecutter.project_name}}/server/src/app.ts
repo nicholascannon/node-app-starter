@@ -25,6 +25,5 @@ export const startApp = (env: Environment): Server => {
 
   app.use(errorHandler);
 
-  logger.info('Application setup complete');
-  return app.listen(env.port, () => logger.info({ port: env.port }, 'Server started...'));
+  return app.listen(env.port, () => logger.info({ port: env.port }, 'Application started...'));
 };
