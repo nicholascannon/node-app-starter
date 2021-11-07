@@ -1,8 +1,8 @@
 {
-  "name": "{{cookiecutter.directory_name}}-server",
+  "name": "{{cookiecutter.project_slug}}-server",
   "private": "true",
   "version": "0.0.1",
-  "description": "{{cookiecutter.directory_name}} server",
+  "description": "{{cookiecutter.project_slug}} server",
   "scripts": {
     "start": "nodemon src/index.ts | bunyan",
     "build": "tsc -p ./tsconfig.json",
