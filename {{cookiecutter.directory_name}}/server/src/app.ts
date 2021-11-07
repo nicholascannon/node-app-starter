@@ -1,6 +1,7 @@
 import express from 'express';
 import { Server } from 'http';
 import { Environment } from './env';
+import { errorHandler } from './error';
 import { getLogger } from './log';
 import { makeRequestLogger } from './middleware/request-logger';
 import { getRedactedEnvironment } from './utils/environment-parser';
@@ -8,7 +9,7 @@ import { asyncErrorWrapper } from './utils/express-handler-wrappers';
 
 export const startApp = (env: Environment): Server => {
   const logger = getLogger();
-  logger.info('Starting application...', { env: getRedactedEnvironment({ ...env }) });
+  logger.info({ env: getRedactedEnvironment({ ...env }) }, 'Starting application...');
 
   const app = express();
 
@@ -22,6 +23,8 @@ export const startApp = (env: Environment): Server => {
     })
   );
 
+  app.use(errorHandler);
+
   logger.info('Application setup complete');
-  return app.listen(env.port, () => logger.info('Server started...', { port: env.port }));
+  return app.listen(env.port, () => logger.info({ port: env.port }, 'Server started...'));
 };

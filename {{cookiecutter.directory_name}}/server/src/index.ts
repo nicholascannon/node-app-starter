@@ -7,12 +7,12 @@ const logger = getLogger();
 
 process
   .on('uncaughtException', (error) => {
-    logger.error('uncaughtException', { error });
+    logger.error(error, 'uncaughtException');
     process.exitCode = 1;
     lifecycle.shutdown();
   })
   .on('unhandledRejection', (reason) => {
-    logger.error('unhandledRejection', { reason });
+    logger.error({ reason }, 'unhandledRejection');
     process.exitCode = 1;
     lifecycle.shutdown();
   })
