@@ -18,6 +18,9 @@ RUN npm prune --production
 FROM node:16.7.0-alpine AS runtime
 WORKDIR /usr/src/app
 
+# don't want node process as PID, use this instead
+RUN apk add dumb-init
+
 COPY --from=build /usr/src/app/dist dist/
 COPY --from=build /usr/src/app/node_modules node_modules/
 COPY --from=build /usr/src/app/package.json .
@@ -30,4 +33,4 @@ EXPOSE ${PORT}
 
 ENV NODE_ENV=production
 
-CMD [ "node", "./dist/index.js" ]
+CMD [ "dumb-init", "node", "./dist/index.js" ]
