@@ -7,7 +7,7 @@ export const makeRequestLogger =
   (req, res, next) => {
     const requestId = uuid();
     const startTime = Date.now();
-    // req.requestId = requestId;
+    req.requestId = requestId;
 
     res.on('finish', () =>
       logger.info({
