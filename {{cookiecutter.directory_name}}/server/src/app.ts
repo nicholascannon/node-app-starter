@@ -2,6 +2,7 @@ import express from 'express';
 import { Server } from 'http';
 import { Environment } from './env';
 import { getLogger } from './log';
+import { makeRequestLogger } from './middleware/request-logger';
 import { getRedactedEnvironment } from './utils/environment-parser';
 
 export const startApp = (env: Environment): Server => {
@@ -11,6 +12,7 @@ export const startApp = (env: Environment): Server => {
   const app = express();
 
   app.use(express.json());
+  app.use(makeRequestLogger(logger));
 
   app.get('/', (_req, res) => {
     return res.json({ message: 'Working ' });
