@@ -21,6 +21,7 @@ then
   rm -rf .git/ # remove cna's git folder
   rm .gitignore
   rm README.md
+  cd ..
 fi
 
 cd server && npm i
