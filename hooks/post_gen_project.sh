@@ -4,7 +4,8 @@ git init
 
 npm i
 
-if [[ "{{cookiecutter.create_react_app}}" == "true" ]]; then
+if [[ "{{cookiecutter.create_react_app}}" == "true" ]]
+then
   cd client
   rm .gitkeep
   npx create-react-app --template typescript .
@@ -13,6 +14,7 @@ if [[ "{{cookiecutter.create_react_app}}" == "true" ]]; then
   rm README.md
   cd ..
 elif [[ "{{cookiecutter.create_next_app}}" == "true" ]]
+then
   cd client
   rm .gitkeep
   npx create-next-app --ts .
