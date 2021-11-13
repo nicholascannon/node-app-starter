@@ -1,5 +1,6 @@
 {
   "project_name": "",
   "project_description": "",
-  "create_react_app": "false"
+  "create_react_app": "false",
+  "create_next_app": "false"
 }
