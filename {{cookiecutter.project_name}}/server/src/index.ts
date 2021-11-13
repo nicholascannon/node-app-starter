@@ -6,23 +6,23 @@ import { lifecycle } from './utils/lifecycle';
 const logger = getLogger();
 
 process
-  .on('uncaughtException', (error) => {
+  .on('uncaughtException', async (error) => {
     logger.error(error, 'uncaughtException');
     process.exitCode = 1;
-    lifecycle.shutdown();
+    await lifecycle.shutdown();
   })
-  .on('unhandledRejection', (reason) => {
+  .on('unhandledRejection', async (reason) => {
     logger.error({ reason }, 'unhandledRejection');
     process.exitCode = 1;
-    lifecycle.shutdown();
+    await lifecycle.shutdown();
   })
-  .on('SIGTERM', () => {
+  .on('SIGTERM', async () => {
     logger.info('Recieved SIGTERM, shutting down...');
-    lifecycle.shutdown();
+    await lifecycle.shutdown();
   })
-  .on('SIGINT', () => {
+  .on('SIGINT', async () => {
     logger.info('Recieved SIGINT, shutting down...');
-    lifecycle.shutdown();
+    await lifecycle.shutdown();
   });
 
 const server = startApp(getEnvironment());
