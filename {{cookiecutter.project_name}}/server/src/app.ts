@@ -17,11 +17,14 @@ export const startApp = (env: Environment): Server => {
   const app = express();
 
   app.use(helmet());
-  app.use(makeRequestLogger(logger));
   if (env.corsOrigins.length) app.use(cors({ origin: env.corsOrigins }));
   app.use(express.json());
 
   app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(env)));
+
+  app.use(makeRequestLogger(logger));
+
+  /* Routes here */
 
   app.use(errorHandler);
 

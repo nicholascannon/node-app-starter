@@ -23,9 +23,11 @@ RUN apk add dumb-init
 
 COPY --from=build /usr/src/app/dist dist/
 COPY --from=build /usr/src/app/node_modules node_modules/
-COPY --from=build /usr/src/app/package.json .
 
 USER node
+
+ARG VERSION
+ENV VERSION=${VERSION}
 
 ARG PORT
 ENV PORT=${PORT}
