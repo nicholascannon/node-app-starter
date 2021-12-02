@@ -1,8 +1,6 @@
-import express from 'express';
+import express, { Application } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import { Server } from 'http';
-import { Environment } from './env';
 import { errorHandler } from './error';
 import { getLogger } from './log';
 import { makeRequestLogger } from './middleware/request-logger';
@@ -10,17 +8,22 @@ import { getRedactedEnvironment } from './utils/environment-parser';
 import { asyncErrorWrapper } from './utils/express-handler-wrappers';
 import { makeHealthCheckRoute } from './routes/healthcheck';
 
-export const startApp = (env: Environment): Server => {
+interface ApplicationOptions {
+  version: string;
+  corsOrigins?: string[];
+}
+
+export const makeApp = (options: ApplicationOptions): Application => {
   const logger = getLogger();
-  logger.info({ env: getRedactedEnvironment({ ...env }) }, 'Starting application...');
+  logger.info({ options: getRedactedEnvironment({ ...options }) }, 'Creating application...');
 
   const app = express();
 
   app.use(helmet());
-  if (env.corsOrigins.length) app.use(cors({ origin: env.corsOrigins }));
+  if (options.corsOrigins?.length) app.use(cors({ origin: options.corsOrigins }));
   app.use(express.json());
 
-  app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(env)));
+  app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(options.version)));
 
   app.use(makeRequestLogger(logger));
 
@@ -28,5 +31,6 @@ export const startApp = (env: Environment): Server => {
 
   app.use(errorHandler);
 
-  return app.listen(env.port, () => logger.info({ port: env.port }, 'Application started...'));
+  logger.info('Application creation complete');
+  return app;
 };

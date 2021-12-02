@@ -6,7 +6,7 @@ export interface Environment {
   corsOrigins: string[];
 }
 
-export const getEnvironment = (): Environment => {
+export const parseEnvironment = (): Environment => {
   return {
     version: getString('VERSION'),
     port: getNumber('PORT'),

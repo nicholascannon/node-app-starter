@@ -1,5 +1,5 @@
-import { startApp } from './app';
-import { getEnvironment } from './env';
+import { makeApp } from './app';
+import { parseEnvironment } from './env';
 import { getLogger } from './log';
 import { lifecycle } from './utils/lifecycle';
 
@@ -25,5 +25,20 @@ process
     await lifecycle.shutdown();
   });
 
-const server = startApp(getEnvironment());
-lifecycle.on('close', async () => server.close());
+const env = parseEnvironment();
+
+const appOptions = { version: env.version, corsOrigins: env.corsOrigins };
+const app = makeApp(appOptions);
+
+const server = app.listen(env.port, () => logger.info({ port: env.port }, 'Server started...'));
+
+lifecycle.on('close', async () => {
+  server.close((err) => {
+    if (err) {
+      logger.error(err, 'Could not stop server');
+      process.exit(1);
+    }
+
+    logger.info('Server stopped');
+  });
+});

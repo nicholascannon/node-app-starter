@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
-import { Environment } from '../env';
 
 export const makeHealthCheckRoute =
-  (env: Environment): RequestHandler =>
+  (appVersion: string): RequestHandler =>
   (_req, res) =>
-    res.json({ version: env.version });
+    res.json({ version: appVersion });
