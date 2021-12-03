@@ -23,11 +23,11 @@ const exceptionHandlerMap: { [key in ExceptionReasons]: ErrorRequestHandler } = 
   NOT_FOUND: (error, _req, res) => res.status(404).json({ message: error.message }),
 };
 
-export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  if (error instanceof Exception) {
-    return exceptionHandlerMap[error.reason](error, req, res, next);
+export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  if (err instanceof Exception) {
+    return exceptionHandlerMap[err.reason](err, req, res, next);
   }
 
-  logger.error({ error, requestId: req.requestId }, 'Unexpected error');
+  logger.error('Unexpected error', { error: err, requestId: req.requestId });
   return res.status(500).json({ message: 'Something went wrong' });
 };

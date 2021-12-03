@@ -1,18 +1,19 @@
 import { makeApp } from './app';
 import { parseEnvironment } from './env';
 import { getLogger } from './log';
+import { redactSecrets } from './utils/environment-parser';
 import { lifecycle } from './utils/lifecycle';
 
 const logger = getLogger();
 
 process
-  .on('uncaughtException', async (error) => {
-    logger.error(error, 'uncaughtException');
+  .on('uncaughtException', async (err) => {
+    logger.error('uncaughtException', { err });
     process.exitCode = 1;
     await lifecycle.shutdown();
   })
   .on('unhandledRejection', async (reason) => {
-    logger.error({ reason }, 'unhandledRejection');
+    logger.error('unhandledRejection', { reason });
     process.exitCode = 1;
     await lifecycle.shutdown();
   })
@@ -26,19 +27,20 @@ process
   });
 
 const env = parseEnvironment();
+logger.info('Parsed environment', redactSecrets({ ...env }));
 
-const appOptions = { version: env.version, corsOrigins: env.corsOrigins };
-const app = makeApp(appOptions);
+const appConfig = { version: env.version, corsOrigins: env.corsOrigins };
+const app = makeApp(appConfig);
 
-const server = app.listen(env.port, () => logger.info({ port: env.port }, 'Server started...'));
+const server = app.listen(env.port, () => logger.info('Server started...', { port: env.port }));
 
 lifecycle.on('close', async () => {
   server.close((err) => {
     if (err) {
-      logger.error(err, 'Could not stop server');
+      logger.error('Could not stop server', { err });
       process.exit(1);
+    } else {
+      logger.info('Server stopped');
     }
-
-    logger.info('Server stopped');
   });
 });
