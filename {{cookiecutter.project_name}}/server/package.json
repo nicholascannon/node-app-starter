@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "{{cookiecutter.project_name}} server",
   "scripts": {
-    "start": "export PORT=8080 && nodemon src/index.ts | bunyan",
+    "start": "export PORT=8080 && export VERSION=local && nodemon src/index.ts | bunyan",
     "build": "tsc -p ./tsconfig.json",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "lint": "eslint --cache --ext .ts src",
