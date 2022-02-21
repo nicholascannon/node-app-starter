@@ -21,6 +21,7 @@ WORKDIR /usr/src/app
 # don't want node process as PID 1, use this instead
 RUN apk add dumb-init
 
+COPY --from=build /usr/src/app/package* ./
 COPY --from=build /usr/src/app/dist dist/
 COPY --from=build /usr/src/app/node_modules node_modules/
 
