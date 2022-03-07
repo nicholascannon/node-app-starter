@@ -8,10 +8,10 @@ import { createRequestLogger } from './middleware/request-logger';
 import { asyncErrorWrapper } from './utils/express-handler-wrappers';
 import { createHealthCheckRoute } from './routes/healthcheck';
 
-interface ApplicationConfig {
+type ApplicationConfig = {
   version: string;
   corsOrigins?: string[];
-}
+};
 
 export const createApp = (config: ApplicationConfig) => {
   const logger = getLogger();

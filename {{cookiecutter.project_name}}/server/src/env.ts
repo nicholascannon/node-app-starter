@@ -1,10 +1,10 @@
 import { array, number, object, string } from 'yup';
 
-export interface Environment {
+export type Environment = {
   version: string;
   port: number;
   corsOrigins: string[];
-}
+};
 
 const environmentSchema = object({
   version: string().required(),
