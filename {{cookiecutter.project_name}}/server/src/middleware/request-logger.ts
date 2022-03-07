@@ -2,7 +2,7 @@ import Logger from 'bunyan';
 import { RequestHandler } from 'express';
 import { v4 as uuid } from 'uuid';
 
-export const makeRequestLogger =
+export const createRequestLogger =
   (logger: Logger): RequestHandler =>
   (req, res, next) => {
     const requestId = uuid();

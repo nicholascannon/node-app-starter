@@ -4,9 +4,9 @@ import cors from 'cors';
 import { Server } from 'http';
 import { errorHandler } from './error';
 import { getLogger } from './log';
-import { makeRequestLogger } from './middleware/request-logger';
+import { createRequestLogger } from './middleware/request-logger';
 import { asyncErrorWrapper } from './utils/express-handler-wrappers';
-import { makeHealthCheckRoute } from './routes/healthcheck';
+import { createHealthCheckRoute } from './routes/healthcheck';
 
 interface ApplicationConfig {
   version: string;
@@ -22,9 +22,9 @@ export const createApp = (config: ApplicationConfig) => {
   if (config.corsOrigins?.length) app.use(cors({ origin: config.corsOrigins }));
   app.use(express.json());
 
-  app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(config.version)));
+  app.get('/healthcheck', asyncErrorWrapper(createHealthCheckRoute(config.version)));
 
-  app.use(makeRequestLogger(logger));
+  app.use(createRequestLogger(logger));
 
   // routes here
 
