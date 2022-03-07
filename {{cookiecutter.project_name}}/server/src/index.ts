@@ -1,7 +1,7 @@
 import { makeApp } from './app';
 import { parseEnvironment } from './env';
 import { getLogger } from './log';
-import { redactSecrets } from './utils/environment-parser';
+import { redactSecrets } from './utils/environment-utils';
 import { lifecycle } from './utils/lifecycle';
 
 const logger = getLogger();

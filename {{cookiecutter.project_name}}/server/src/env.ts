@@ -1,4 +1,4 @@
-import { getNumber, getString, getStringList } from './utils/environment-parser';
+import { array, number, object, string } from 'yup';
 
 export interface Environment {
   version: string;
@@ -6,10 +6,16 @@ export interface Environment {
   corsOrigins: string[];
 }
 
+const environmentSchema = object({
+  version: string().required(),
+  port: number().min(1025).max(65535).required(),
+  corsOrigins: array().of(string()).notRequired(),
+});
+
 export const parseEnvironment = (): Environment => {
-  return {
-    version: getString('VERSION'),
-    port: getNumber('PORT'),
-    corsOrigins: getStringList('ALLOWED_ORIGINS', false),
-  };
+  return environmentSchema.validateSync({
+    version: process.env.VERSION,
+    port: Number(process.env.PORT),
+    corsOrigins: process.env.ALLOWED_ORIGINS?.split(' '),
+  });
 };
