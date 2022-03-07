@@ -26,4 +26,4 @@ then
   cd ..
 fi
 
-cd server && npm i
+echo "Consider updating package versions to latest with `npx npm-check-updates`"

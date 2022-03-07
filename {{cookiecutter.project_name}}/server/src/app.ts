@@ -22,7 +22,6 @@ export const createApp = (config: ApplicationConfig) => {
   if (config.corsOrigins?.length) app.use(cors({ origin: config.corsOrigins }));
   app.use(express.json());
 
-  // non request logging routes
   app.get('/healthcheck', asyncErrorWrapper(makeHealthCheckRoute(config.version)));
 
   app.use(makeRequestLogger(logger));
@@ -36,7 +35,7 @@ export const createApp = (config: ApplicationConfig) => {
 
     listen: (port: number) => {
       server = app.listen(port, () => logger.info('Server started...', { port }));
-      return app;
+      return server;
     },
 
     close: () => {
