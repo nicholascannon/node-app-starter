@@ -5,8 +5,8 @@
   "description": "{{cookiecutter.project_name}} server",
   "scripts": {
     "start": "nodemon -r dotenv/config src/index.ts | bunyan",
-    "build": "tsc -p ./tsconfig.json",
-    "test": "mocha -r ts-node/register src/**/*.test.ts",
+    "build": "tsc -p ./tsconfig.build.json",
+    "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "lint": "eslint --cache --ext .ts src",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.ts\""

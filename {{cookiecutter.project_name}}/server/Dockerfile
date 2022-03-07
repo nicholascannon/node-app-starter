@@ -8,6 +8,7 @@ COPY .prettierrc .
 COPY .eslintrc.js .
 COPY tsconfig*.json ./
 COPY src src
+COPY tests tests
 
 RUN npm run lint
 RUN npm run test

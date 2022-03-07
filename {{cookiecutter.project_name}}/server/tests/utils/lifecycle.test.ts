@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import 'mocha';
 import { expect } from 'chai';
-import { getLifecycle } from './lifecycle';
+import { getLifecycle } from '../../src/utils/lifecycle';
 
 describe('lifecycle', () => {
   const lifecycle = getLifecycle();

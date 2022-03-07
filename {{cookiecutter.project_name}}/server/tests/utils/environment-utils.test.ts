@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import 'mocha';
 import { expect } from 'chai';
-import { isSecret } from './environment-utils';
+import { isSecret } from '../../src/utils/environment-utils';
 
 describe('isSecret', () => {
   it('should return true for keys that are secrets keywords', () => {
