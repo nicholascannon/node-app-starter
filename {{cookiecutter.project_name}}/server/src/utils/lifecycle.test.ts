@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import 'mocha';
 import { expect } from 'chai';
-import { lifecycle } from './lifecycle';
+import { getLifecycle } from './lifecycle';
 
 describe('lifecycle', () => {
+  const lifecycle = getLifecycle();
+
   it('should be open and return true', () => {
     expect(lifecycle.isRunning()).to.equal(true);
   });
