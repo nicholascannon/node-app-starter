@@ -10,6 +10,6 @@ registerLifecycleEvents(lifecycle);
 const env = parseEnvironment();
 getLogger().info('Parsed environment', redactSecrets({ ...env }));
 
-const app = createApp({ version: env.version, corsOrigins: env.corsOrigins });
+const app = createApp(env);
 app.listen(env.port);
 lifecycle.on('close', async () => app.close());
