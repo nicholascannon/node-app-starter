@@ -16,10 +16,16 @@ npm i
 npm run bootstrap
 ```
 
+- Create .env file from example file
+
+```bash
+cp server/.env-example server/.env
+```
+
 - Run client and server with hot-reload
 
 ```bash
-export PORT=8080 && npm start
+npm start
 ```
 
 ### Running the server in Docker
