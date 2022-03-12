@@ -2,14 +2,16 @@ import { createApp } from './app';
 import { parseEnvironment } from './env';
 import { getLogger } from './log';
 import { redactSecrets } from './utils/environment-utils';
-import { registerLifecycleEvents, getLifecycle } from './utils/lifecycle';
+import { registerProcessLifecycleEvents, getLifecycleManager } from './utils/lifecycle';
 
-const lifecycle = getLifecycle();
-registerLifecycleEvents(lifecycle);
+const lifecycle = getLifecycleManager();
+registerProcessLifecycleEvents(lifecycle);
 
-const env = parseEnvironment();
+const env = parseEnvironment(process.env);
 getLogger().info('Parsed environment', redactSecrets({ ...env }));
 
 const app = createApp(env);
-app.listen(env.port);
-lifecycle.on('close', async () => app.close());
+app.listen(env.port, () => {
+  // on close server if started
+  lifecycle.on('close', async () => app.close());
+});

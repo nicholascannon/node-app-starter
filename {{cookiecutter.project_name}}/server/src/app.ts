@@ -33,8 +33,11 @@ export const createApp = (config: ApplicationConfig) => {
   return {
     _app: app,
 
-    listen: (port: number) => {
-      server = app.listen(port, () => logger.info('Server started...', { port }));
+    listen: (port: number, cb?: () => void) => {
+      server = app.listen(port, () => {
+        logger.info('Server started...', { port });
+        if (cb) cb();
+      });
       return server;
     },
 

@@ -12,10 +12,10 @@ const environmentSchema = object({
   corsOrigins: array().of(string()).notRequired(),
 });
 
-export const parseEnvironment = (): Environment => {
+export const parseEnvironment = (environment: Record<string, string | undefined>): Environment => {
   return environmentSchema.validateSync({
-    version: process.env.VERSION,
-    port: Number(process.env.PORT),
-    corsOrigins: process.env.ALLOWED_ORIGINS?.split(' '),
+    version: environment.VERSION,
+    port: environment.PORT,
+    corsOrigins: environment.ALLOWED_ORIGINS?.split(' '),
   });
 };

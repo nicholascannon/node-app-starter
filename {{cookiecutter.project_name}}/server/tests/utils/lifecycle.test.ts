@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import 'mocha';
 import { expect } from 'chai';
-import { getLifecycle } from '../../src/utils/lifecycle';
+import { getLifecycleManager } from '../../src/utils/lifecycle';
 
 describe('lifecycle', () => {
-  const lifecycle = getLifecycle();
+  const lifecycle = getLifecycleManager();
 
   it('should be open and return true', () => {
     expect(lifecycle.isRunning()).to.equal(true);

@@ -2,15 +2,15 @@ import { getLogger } from '../log';
 
 type ListenerFunction = () => Promise<unknown>;
 
-type Lifecycle = {
+type LifecycleManager = {
   isRunning: () => boolean;
   on: (_: 'close', listener: ListenerFunction) => void;
   shutdown: () => Promise<void>;
 };
 
-let LIFE_CYCLE: Lifecycle | undefined;
+let lifecycleManager: LifecycleManager | undefined;
 
-const createLifecycle = (): Lifecycle => {
+const createLifecycleManager = (): LifecycleManager => {
   let running = true;
   const onCloseListeners: Array<ListenerFunction> = [];
 
@@ -28,31 +28,31 @@ const createLifecycle = (): Lifecycle => {
   };
 };
 
-export const getLifecycle = (): Lifecycle => {
-  if (!LIFE_CYCLE) LIFE_CYCLE = createLifecycle();
-  return LIFE_CYCLE;
+export const getLifecycleManager = (): LifecycleManager => {
+  if (!lifecycleManager) lifecycleManager = createLifecycleManager();
+  return lifecycleManager;
 };
 
-export const registerLifecycleEvents = (lifecycle: Lifecycle): void => {
+export const registerProcessLifecycleEvents = (manager: LifecycleManager): void => {
   const logger = getLogger();
 
   process
     .on('uncaughtException', async (err) => {
       logger.error('uncaughtException', { err });
       process.exitCode = 1;
-      await lifecycle.shutdown();
+      await manager.shutdown();
     })
     .on('unhandledRejection', async (reason) => {
       logger.error('unhandledRejection', { reason });
       process.exitCode = 1;
-      await lifecycle.shutdown();
+      await manager.shutdown();
     })
     .on('SIGTERM', async () => {
       logger.info('Recieved SIGTERM, shutting down...');
-      await lifecycle.shutdown();
+      await manager.shutdown();
     })
     .on('SIGINT', async () => {
       logger.info('Recieved SIGINT, shutting down...');
-      await lifecycle.shutdown();
+      await manager.shutdown();
     });
 };
