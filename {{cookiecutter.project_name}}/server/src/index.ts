@@ -12,6 +12,6 @@ getLogger().info('Parsed environment', redactSecrets({ ...env }));
 
 const app = createApp(env);
 app.listen(env.port, () => {
-  // on close server if started
-  lifecycle.on('close', async () => app.close());
+    // on close server if started
+    lifecycle.on('close', async () => app.close());
 });
