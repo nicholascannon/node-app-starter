@@ -1,4 +1,4 @@
-import { getLogger } from '../log';
+import { Logger } from '../logger';
 
 type ListenerFunction = () => Promise<unknown>;
 
@@ -33,12 +33,10 @@ export const getLifecycleManager = (): LifecycleManager => {
     return lifecycleManager;
 };
 
-export const registerProcessLifecycleEvents = (manager: LifecycleManager): void => {
-    const logger = getLogger();
-
+export const registerProcessLifecycleEvents = (logger: Logger, manager: LifecycleManager): void => {
     process
-        .on('uncaughtException', async (err) => {
-            logger.error('uncaughtException', { err });
+        .on('uncaughtException', async (error) => {
+            logger.error('uncaughtException', { error });
             process.exitCode = 1;
             await manager.shutdown();
         })

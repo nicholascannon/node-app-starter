@@ -1,60 +1,44 @@
 import express from 'express';
 import helmet from 'helmet';
-import cors from 'cors';
 import { Server } from 'http';
-import { errorHandler } from './error';
-import { getLogger } from './log';
-import { createRequestLogger } from './middleware/request-logger';
-import { asyncErrorWrapper } from './utils/express-handler-wrappers';
-import { createHealthCheckRoute } from './routes/healthcheck';
+import { createGlobalErrorHandler } from './error-handler';
+import { Logger } from './logger';
+import { useWinstonRequestLogger } from './middleware/request-logger';
 
-type ApplicationConfig = {
+type AppConfig = {
     version: string;
-    corsOrigins?: string[];
+    logger: Logger;
 };
 
-export const createApp = (config: ApplicationConfig) => {
-    const logger = getLogger();
-    const app = express();
-    let server: Server | undefined;
+export const createApp = (config: AppConfig) => {
+    const { version, logger } = config;
 
+    const app = express();
     app.use(helmet());
-    if (config.corsOrigins?.length) app.use(cors({ origin: config.corsOrigins }));
     app.use(express.json());
 
-    app.get('/healthcheck', asyncErrorWrapper(createHealthCheckRoute(config.version)));
+    app.get('/healthcheck', (_req, res) => res.status(200).json({ message: 'Ok', version }));
 
-    app.use(createRequestLogger(logger));
+    app.use(useWinstonRequestLogger());
 
-    // routes here
+    app.use(createGlobalErrorHandler(logger));
 
-    app.use(errorHandler);
+    let server: Server | undefined;
 
     return {
-        _app: app,
-
-        listen: (port: number, cb?: () => void) => {
+        listen: (port: number, callback?: () => void) => {
             server = app.listen(port, () => {
                 logger.info('Server started...', { port });
-                if (cb) cb();
+                if (callback) callback();
             });
-            return server;
         },
-
         close: () => {
-            if (!server) {
-                logger.warn('Attempting to close server that is not started');
-                return;
-            }
-
             logger.info('Stopping server...');
-            server.close((err) => {
-                if (err) {
-                    logger.error('Could not stop server', { err });
+            server?.close((error) => {
+                if (error) {
+                    logger.error('Could not stop server', { error });
                     process.exit(1);
                 }
-
-                logger.info('Server stopped');
             });
         },
     };

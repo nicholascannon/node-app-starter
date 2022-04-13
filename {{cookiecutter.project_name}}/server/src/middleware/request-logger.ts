@@ -1,22 +1,7 @@
-import Logger from 'bunyan';
-import { RequestHandler } from 'express';
-import { randomUUID } from 'crypto';
+import expressWinston from 'express-winston';
+import winston from 'winston';
 
-export const createRequestLogger =
-    (logger: Logger): RequestHandler =>
-    (req, res, next) => {
-        const requestId = randomUUID();
-        const startTime = Date.now();
-        req.requestId = requestId;
-
-        res.on('finish', () =>
-            logger.info({
-                path: req.originalUrl,
-                method: req.method,
-                status: res.statusCode,
-                responseTimeMs: Date.now() - startTime,
-                requestId,
-            })
-        );
-        next();
-    };
+export const useWinstonRequestLogger = () =>
+    expressWinston.logger({
+        transports: [new winston.transports.Console()],
+    });

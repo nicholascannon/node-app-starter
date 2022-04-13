@@ -1,17 +1,21 @@
 import { createApp } from './app';
-import { parseEnvironment } from './env';
-import { getLogger } from './log';
-import { redactSecrets } from './utils/environment-utils';
+import { parseConfigFromEnvironment } from './config';
+import { createWinstonLogger } from './logger';
 import { registerProcessLifecycleEvents, getLifecycleManager } from './utils/lifecycle';
 
-const lifecycle = getLifecycleManager();
-registerProcessLifecycleEvents(lifecycle);
+const manager = getLifecycleManager();
+const config = parseConfigFromEnvironment(process.env);
+const logger = createWinstonLogger(config.logLevel);
 
-const env = parseEnvironment(process.env);
-getLogger().info('Parsed environment', redactSecrets({ ...env }));
+registerProcessLifecycleEvents(logger, manager);
 
-const app = createApp(env);
-app.listen(env.port, () => {
-    // on close server if started
-    lifecycle.on('close', async () => app.close());
+logger.info('Parsed environment', {
+    version: config.version,
+    port: config.port,
+    logLevel: config.logLevel,
+});
+
+const app = createApp({ logger, ...config });
+app.listen(config.port, () => {
+    manager.on('close', async () => app.close());
 });
