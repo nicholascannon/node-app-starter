@@ -35,6 +35,8 @@ ARG PORT
 ENV PORT=${PORT}
 EXPOSE ${PORT}
 
+ENV LOG_LEVEL 'info'
+
 ENV NODE_ENV=production
 
 CMD [ "dumb-init", "node", "./dist/index.js" ]

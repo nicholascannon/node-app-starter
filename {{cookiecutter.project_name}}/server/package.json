@@ -8,7 +8,7 @@
     "build": "tsc -p ./tsconfig.build.json",
     "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "lint": "eslint --cache --ext .ts src",
-    "lint:fix": "npm run lint -- --fix",
+    "lint-fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.ts\""
   },
   "devDependencies": {
