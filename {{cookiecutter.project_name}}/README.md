@@ -14,7 +14,7 @@ cp server/.env-example server/.env
 
 ```bash
 cd server
-npm ci
+npm i
 npm start
 ```
 
