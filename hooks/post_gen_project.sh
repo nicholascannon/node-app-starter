@@ -2,4 +2,4 @@
 
 git init
 
-echo "Consider updating package versions to latest with `npx npm-check-updates`"
+echo "Consider updating package versions to latest with npx npm-check-updates"
