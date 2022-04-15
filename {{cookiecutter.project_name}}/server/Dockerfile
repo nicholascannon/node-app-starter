@@ -29,14 +29,13 @@ COPY --from=build /usr/src/app/node_modules node_modules/
 USER node
 
 ARG VERSION
-ENV VERSION=${VERSION}
-
 ARG PORT
+
+ENV VERSION=${VERSION}
 ENV PORT=${PORT}
-EXPOSE ${PORT}
-
 ENV LOG_LEVEL 'info'
-
 ENV NODE_ENV=production
+
+EXPOSE ${PORT}
 
 CMD [ "dumb-init", "node", "./dist/index.js" ]
