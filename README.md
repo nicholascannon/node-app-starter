@@ -30,7 +30,6 @@ Create a project with a `create-react-app` client:
 $ cookiecutter https://github.com/nicholascannon/node-app-starter
   project_name []: my-project
   project_description []: A cool project
-  create_react_app [false]: true
 ```
 
 ## Some resources I used to build this
