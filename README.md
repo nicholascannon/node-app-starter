@@ -1,8 +1,7 @@
 # node-app-starter
 
-Typescript, Node.JS, Express, Docker and React application cookie cutter.
-
-Also has Prettier and ESLint setup too.
+Typescript, Node.JS, Express, Docker application cookie cutter.
+Includes Prettier and ESLint.
 
 Project structure
 
