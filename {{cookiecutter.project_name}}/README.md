@@ -4,27 +4,17 @@
 
 ## Getting started
 
-- Install root project deps
-
-```bash
-npm i
-```
-
-- Bootstrap client and server
-
-```bash
-npm run bootstrap
-```
-
 - Create .env file from example file
 
 ```bash
 cp server/.env-example server/.env
 ```
 
-- Run client and server with hot-reload
+- Run server locally
 
 ```bash
+cd server
+npm ci
 npm start
 ```
 
