@@ -1,15 +1,23 @@
-import { z } from 'zod';
-import { validate } from './validation';
+import { createAjvValidator } from './validation';
 
-const configSchema = z.object({
-    version: z.string(),
-    port: z.number().min(1010).max(65535),
-    logLevel: z.enum(['info', 'debug', 'warn', 'error', 'verbose']),
+export type Config = {
+    version: string;
+    port: number;
+    logLevel: 'info' | 'debug' | 'warn' | 'error' | 'verbose';
+};
+
+const configValidator = createAjvValidator<Config>({
+    type: 'object',
+    properties: {
+        version: { type: 'string' },
+        port: { type: 'number', minimum: 1010, maximum: 65535 },
+        logLevel: { type: 'string', enum: ['info', 'debug', 'warn', 'error', 'verbose'] },
+    },
+    required: ['logLevel', 'port', 'version'],
 });
-export type Config = z.infer<typeof configSchema>;
 
 export const parseConfigFromEnvironment = (environment: Record<string, unknown>): Config =>
-    validate(configSchema, {
+    configValidator.validate({
         version: environment.VERSION,
         port: Number(environment.PORT),
         logLevel: environment.LOG_LEVEL,
