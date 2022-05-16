@@ -13,7 +13,7 @@ export class ValidationError extends Error {
 }
 
 export const createAjvValidator = <T>(schema: JSONSchemaType<T>): Validator<T, JSONSchemaType<T>> => {
-    const ajv = new Ajv();
+    const ajv = new Ajv({ allErrors: true });
     const validator = ajv.compile(schema);
 
     return {
