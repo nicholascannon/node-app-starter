@@ -1,8 +1,5 @@
 /* This overrides the tsconfig.json settings for prod builds */
 {
-  "compilerOptions": {
-    "rootDir": "./src"
-  },
   "extends": "./tsconfig.json",
   "include": ["./src/**/*.ts"]
 }
