@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from 'express';
-import { Logger } from './logger';
+import { Logger } from '../utils/logger';
 
 export const createGlobalErrorHandler =
     (logger: Logger): ErrorRequestHandler =>

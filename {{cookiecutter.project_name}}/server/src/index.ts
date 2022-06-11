@@ -1,6 +1,6 @@
 import { createApp } from './app';
 import { parseConfigFromEnvironment } from './config';
-import { createWinstonLogger } from './logger';
+import { createWinstonLogger } from './utils/logger';
 import { registerProcessLifecycleEvents, getLifecycleManager } from './utils/lifecycle';
 
 const manager = getLifecycleManager();

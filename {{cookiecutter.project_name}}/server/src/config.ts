@@ -1,4 +1,4 @@
-import { createAjvValidator } from './validation';
+import { createAjvValidator } from './utils/validation';
 
 export type Config = {
     version: string;

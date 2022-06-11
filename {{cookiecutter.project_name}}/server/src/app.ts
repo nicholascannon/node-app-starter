@@ -1,8 +1,8 @@
 import express from 'express';
 import helmet from 'helmet';
 import { Server } from 'http';
-import { createGlobalErrorHandler } from './error-handler';
-import { Logger } from './logger';
+import { createGlobalErrorHandler } from './routes/error-handler';
+import { Logger } from './utils/logger';
 import { useWinstonRequestLogger } from './middleware/request-logger';
 
 type AppConfig = {
