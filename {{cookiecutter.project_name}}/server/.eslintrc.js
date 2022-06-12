@@ -16,8 +16,5 @@ module.exports = {
         tsconfigRootDir: __dirname,
     },
     plugins: ['@typescript-eslint'],
-    rules: {
-        'require-jsdoc': 0,
-        'valid-jsdoc': 0,
-    },
+    rules: {},
 };
