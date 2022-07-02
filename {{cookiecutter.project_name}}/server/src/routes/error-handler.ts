@@ -3,7 +3,7 @@ import { Logger } from '../utils/logger';
 
 export const createGlobalErrorHandler =
     (logger: Logger): ErrorRequestHandler =>
-    (error, req, res, next) => {
+    (error, _req, res, next) => {
         if (res.headersSent) {
             return next(error);
         }
