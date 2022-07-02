@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --quite
 
-COPY .prettierrc .
 COPY .eslintrc.js .
 COPY tsconfig*.json ./
 COPY src src

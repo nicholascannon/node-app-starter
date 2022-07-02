@@ -31,5 +31,10 @@
         "express-winston": "4.2.0",
         "helmet": "4.6.0",
         "winston": "3.7.2"
+    },
+    "prettier": {
+        "printWidth": 120,
+        "singleQuote": true,
+        "tabWidth": 4
     }
 }
