@@ -7,7 +7,7 @@ RUN npm ci --quite
 COPY .eslintrc.js .
 COPY tsconfig*.json ./
 COPY src src
-COPY tests tests
+COPY test test
 
 RUN npm run lint
 RUN npm run test
