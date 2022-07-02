@@ -1,7 +1,6 @@
 # node-app-starter
 
 Typescript, Node.JS, Express, Docker application cookie cutter.
-Includes Prettier and ESLint.
 
 Project structure
 
@@ -33,8 +32,8 @@ $ cookiecutter https://github.com/nicholascannon/node-app-starter
 
 ## Some resources I used to build this
 
-- https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
+-   https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
 
-- https://macklin.me/understanding-and-managing-the-node-js-application-lifecycle
+-   https://macklin.me/understanding-and-managing-the-node-js-application-lifecycle
 
-- my brain
+-   my brain

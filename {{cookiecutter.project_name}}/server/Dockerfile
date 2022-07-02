@@ -4,12 +4,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --quite
 
-COPY .eslintrc.js .
 COPY tsconfig*.json ./
 COPY src src
 COPY test test
 
-RUN npm run lint
 RUN npm run test
 RUN npm run build
 

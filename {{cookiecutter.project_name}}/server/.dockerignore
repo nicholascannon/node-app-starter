@@ -2,7 +2,6 @@
 
 !package*.json
 !tsconfig*.json
-!.eslintrc.js
 
 !/src/**/*
 !/tests/**/*
