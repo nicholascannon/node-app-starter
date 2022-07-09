@@ -7,7 +7,8 @@
         "outDir": "./dist",
         "skipLibCheck": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false
     },
     "include": ["./src/**/*.ts", "test/**/*.ts"]
 }
