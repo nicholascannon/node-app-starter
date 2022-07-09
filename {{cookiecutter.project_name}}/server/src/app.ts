@@ -1,16 +1,16 @@
+import * as http from 'http';
 import express from 'express';
 import helmet from 'helmet';
-import { Server } from 'http';
 import { createGlobalErrorHandler } from './routes/error-handler';
 import { Logger } from './utils/logger';
 import { useWinstonRequestLogger } from './middleware/request-logger';
 
-type AppConfig = {
+type Config = {
     version: string;
     logger: Logger;
 };
 
-export const createApp = (config: AppConfig) => {
+export const createAppServer = (config: Config): http.Server => {
     const { version, logger } = config;
 
     const app = express();
@@ -23,23 +23,5 @@ export const createApp = (config: AppConfig) => {
 
     app.use(createGlobalErrorHandler(logger));
 
-    let server: Server | undefined;
-
-    return {
-        listen: (port: number, callback?: () => void) => {
-            server = app.listen(port, () => {
-                logger.info('Server started...', { port });
-                if (callback) callback();
-            });
-        },
-        close: () => {
-            logger.info('Stopping server...');
-            server?.close((error) => {
-                if (error) {
-                    logger.error('Could not stop server', { error });
-                    process.exit(1);
-                }
-            });
-        },
-    };
+    return http.createServer(app);
 };

@@ -1,13 +1,10 @@
-import { createApp } from './app';
+import { createAppServer } from './app';
 import { parseConfigFromEnvironment } from './config';
 import { createWinstonLogger } from './utils/logger';
-import { registerProcessLifecycleEvents, getLifecycleManager } from './utils/lifecycle';
+import { lifecycle } from './utils/lifecycle';
 
-const manager = getLifecycleManager();
 const config = parseConfigFromEnvironment(process.env);
 const logger = createWinstonLogger(config.logLevel);
-
-registerProcessLifecycleEvents(logger, manager);
 
 logger.info('Parsed environment', {
     version: config.version,
@@ -15,7 +12,8 @@ logger.info('Parsed environment', {
     logLevel: config.logLevel,
 });
 
-const app = createApp({ logger, ...config });
+const app = createAppServer({ logger, ...config });
 app.listen(config.port, () => {
-    manager.on('close', async () => app.close());
+    logger.info('Service started', { port: config.port });
+    lifecycle.on('close', () => app.close(() => logger.info('Service stopped')));
 });

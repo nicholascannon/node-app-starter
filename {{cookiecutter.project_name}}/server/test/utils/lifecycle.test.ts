@@ -1,8 +1,6 @@
-import { getLifecycleManager } from '../../src/utils/lifecycle';
+import { lifecycle } from '../../src/utils/lifecycle';
 
 describe('lifecycle', () => {
-    const lifecycle = getLifecycleManager();
-
     it('should be open and return true', () => {
         expect(lifecycle.isRunning()).toBeTruthy();
     });

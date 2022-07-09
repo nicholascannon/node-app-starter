@@ -1,56 +1,31 @@
-import { Logger } from './logger';
+let running = true;
+const listeners: Array<() => Promise<unknown> | unknown> = [];
 
-type ListenerFunction = () => Promise<unknown>;
-
-type LifecycleManager = {
-    isRunning: () => boolean;
-    on: (_: 'close', listener: ListenerFunction) => void;
-    shutdown: () => Promise<void>;
+export const lifecycle = {
+    isRunning: () => running,
+    on: (_: 'close', listener: () => Promise<unknown> | unknown) => {
+        listeners.push(listener);
+    },
+    shutdown: async () => {
+        if (running) {
+            running = false;
+            await Promise.all(listeners.map((listener) => listener()));
+        }
+    },
 };
 
-let lifecycleManager: LifecycleManager | undefined;
-
-const createLifecycleManager = (): LifecycleManager => {
-    let running = true;
-    const onCloseListeners: Array<ListenerFunction> = [];
-
-    return {
-        isRunning: () => running,
-        on: (_, listener) => {
-            onCloseListeners.push(listener);
-        },
-        shutdown: async () => {
-            if (running) {
-                running = false;
-                await Promise.all(onCloseListeners.map((listener) => listener()));
-            }
-        },
-    };
-};
-
-export const getLifecycleManager = (): LifecycleManager => {
-    if (!lifecycleManager) lifecycleManager = createLifecycleManager();
-    return lifecycleManager;
-};
-
-export const registerProcessLifecycleEvents = (logger: Logger, manager: LifecycleManager): void => {
-    process
-        .on('uncaughtException', async (error) => {
-            logger.error('uncaughtException', { error });
-            process.exitCode = 1;
-            await manager.shutdown();
-        })
-        .on('unhandledRejection', async (reason) => {
-            logger.error('unhandledRejection', { reason });
-            process.exitCode = 1;
-            await manager.shutdown();
-        })
-        .on('SIGTERM', async () => {
-            logger.info('Recieved SIGTERM, shutting down...');
-            await manager.shutdown();
-        })
-        .on('SIGINT', async () => {
-            logger.info('Recieved SIGINT, shutting down...');
-            await manager.shutdown();
-        });
-};
+process
+    .on('uncaughtException', async () => {
+        process.exitCode = 1;
+        await lifecycle.shutdown();
+    })
+    .on('unhandledRejection', async () => {
+        process.exitCode = 1;
+        await lifecycle.shutdown();
+    })
+    .on('SIGTERM', async () => {
+        await lifecycle.shutdown();
+    })
+    .on('SIGINT', async () => {
+        await lifecycle.shutdown();
+    });
