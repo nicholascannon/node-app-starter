@@ -27,7 +27,6 @@ USER node
 
 ARG VERSION
 ENV VERSION=${VERSION}
-ENV LOG_LEVEL='info'
 ENV NODE_ENV=production
 
 CMD [ "dumb-init", "node", "./dist/index.js" ]

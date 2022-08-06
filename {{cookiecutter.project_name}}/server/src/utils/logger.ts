@@ -1,6 +1,14 @@
-import * as winston from 'winston';
+import winston from 'winston';
+import expressWinston from 'express-winston';
 
-export type Logger = winston.Logger;
+export const logger = winston.createLogger({
+    level: 'info',
+    transports: [new winston.transports.Console()],
+    format: winston.format.json(),
+});
 
-export const createWinstonLogger = (level: string): Logger =>
-    winston.createLogger({ level, transports: [new winston.transports.Console()] });
+export const requestLogger = expressWinston.logger({
+    winstonInstance: logger,
+    headerBlacklist: ['cookie'],
+    ignoreRoute: (req) => req.path === '/healthcheck',
+});

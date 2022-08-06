@@ -1,27 +1,18 @@
-import * as http from 'http';
 import express from 'express';
 import helmet from 'helmet';
-import { createGlobalErrorHandler } from './routes/error-handler';
-import { Logger } from './utils/logger';
-import { useWinstonRequestLogger } from './middleware/request-logger';
+import { errorHandler } from './middleware/error-handler';
+import { CONFIG } from './config';
+import { requestLogger } from './utils/logger';
 
-type Config = {
-    version: string;
-    logger: Logger;
-};
-
-export const createAppServer = (config: Config): http.Server => {
-    const { version, logger } = config;
-
+export const createApp = () => {
     const app = express();
     app.use(helmet());
     app.use(express.json());
+    app.use(requestLogger);
 
-    app.get('/healthcheck', (_req, res) => res.status(200).json({ message: 'Ok', version }));
+    app.get('/healthcheck', (_req, res) => res.status(200).json({ message: 'Ok', version: CONFIG.version }));
 
-    app.use(useWinstonRequestLogger());
+    app.use(errorHandler);
 
-    app.use(createGlobalErrorHandler(logger));
-
-    return http.createServer(app);
+    return app;
 };
