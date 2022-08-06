@@ -7,7 +7,6 @@ COPY package*.json ./
 RUN npm ci --quite
 
 COPY tsconfig*.json ./
-COPY jest.config.ts .
 COPY src src
 COPY test test
 

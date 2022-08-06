@@ -32,5 +32,10 @@
         "printWidth": 120,
         "singleQuote": true,
         "tabWidth": 4
+    },
+    "jest": {
+        "preset": "ts-jest",
+        "testEnvironment": "node",
+        "rootDir": "test"
     }
 }
