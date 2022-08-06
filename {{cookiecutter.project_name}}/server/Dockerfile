@@ -1,20 +1,24 @@
-FROM node:16.7.0-alpine AS build
+FROM node:16.7.0-alpine AS base
+
+FROM base AS build
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 RUN npm ci --quite
 
 COPY tsconfig*.json ./
+COPY jest.config.ts .
 COPY src src
 COPY test test
 
+RUN npm run format:check
 RUN npm run test
 RUN npm run build
 
 RUN npm prune --production
 
-FROM node:16.7.0-alpine AS runtime
-WORKDIR /usr/src/app
+FROM base AS runtime
+WORKDIR /opt/app
 
 # don't want node process as PID 1, use this instead
 RUN apk add dumb-init
@@ -29,4 +33,4 @@ ARG VERSION
 ENV VERSION=${VERSION}
 ENV NODE_ENV=production
 
-CMD [ "dumb-init", "node", "./dist/index.js" ]
+CMD [ "dumb-init", "node", "." ]

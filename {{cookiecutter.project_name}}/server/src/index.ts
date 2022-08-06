@@ -3,7 +3,7 @@ import { CONFIG } from './config';
 import { logger } from './utils/logger';
 import { lifecycle } from './utils/lifecycle';
 
-logger.info('Parsed environment', {
+logger.info('Config', {
     version: CONFIG.version,
     port: CONFIG.port,
 });

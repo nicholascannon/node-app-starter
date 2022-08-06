@@ -1,5 +1,5 @@
 /* This overrides the tsconfig.json settings for prod builds */
 {
-  "extends": "./tsconfig.json",
-  "include": ["./src/**/*.ts"]
+    "extends": "./tsconfig.json",
+    "include": ["./src/**/*.ts"]
 }
