@@ -16,7 +16,7 @@ logger.info('Config', {
     port: CONFIG.port,
 });
 
-const app = createApp();
+const app = createApp(CONFIG.version);
 const server = app.listen(CONFIG.port, () => {
     logger.info('Service started', { port: CONFIG.port });
     lifecycle.on('close', () => server.close(() => logger.info('Service stopped')));
