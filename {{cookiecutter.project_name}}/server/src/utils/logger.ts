@@ -9,6 +9,6 @@ export const logger = winston.createLogger({
 
 export const requestLogger = expressWinston.logger({
     winstonInstance: logger,
-    headerBlacklist: ['cookie'],
+    headerBlacklist: ['cookie', 'authorization'],
     ignoreRoute: (req) => req.path === '/healthcheck',
 });

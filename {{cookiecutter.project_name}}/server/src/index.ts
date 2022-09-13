@@ -1,7 +1,7 @@
+import { lifecycle } from './utils/lifecycle';
 import { createApp } from './app';
 import { CONFIG } from './config';
 import { logger } from './utils/logger';
-import { lifecycle } from './utils/lifecycle';
 
 process
     .on('uncaughtException', (error) => {
