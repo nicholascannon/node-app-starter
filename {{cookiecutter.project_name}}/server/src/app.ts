@@ -1,12 +1,18 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import { errorHandler } from './middleware/error-handler';
 import { requestLogger } from './utils/logger';
 
-export const createApp = (version: string) => {
+export const createApp = (version: string, corsOrigins: string[]) => {
     const app = express();
 
     app.use(helmet());
+    app.use(
+        cors({
+            origin: corsOrigins,
+        })
+    );
     app.use(express.json());
     app.use(requestLogger);
 
