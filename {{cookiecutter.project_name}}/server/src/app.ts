@@ -4,13 +4,17 @@ import cors from 'cors';
 import { errorHandler } from './middleware/error-handler';
 import { requestLogger } from './utils/logger';
 
-export const createApp = (version: string, corsOrigins: string[]) => {
+type ApplicationOptions = {
+    corsOrigins: string[];
+};
+
+export const createApp = (version: string, options: ApplicationOptions) => {
     const app = express();
 
     app.use(helmet());
     app.use(
         cors({
-            origin: corsOrigins,
+            origin: options.corsOrigins,
         })
     );
     app.use(express.json());
